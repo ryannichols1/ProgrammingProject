@@ -8,7 +8,7 @@ void setup() {
   println("Loaded " + flights.size() + " flights.");
 }
 
-void draw() {
+void drawInfo() {
   background(30);
   
   // Title
