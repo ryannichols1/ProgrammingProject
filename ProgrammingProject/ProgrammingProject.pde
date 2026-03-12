@@ -4,7 +4,7 @@ int currentScreen = 0; // 0 = home/table view
 void setup() {
   size(1200, 800);
   flights = new ArrayList<DataPoint>();
-  loadData("flights.csv");
+  loadData("flights2k(1) (1).csv");
   println("Loaded " + flights.size() + " flights.");
 }
 
@@ -98,3 +98,4 @@ void keyPressed() {
     println("Query 3 selected - sorted by lateness (TODO)");
   }
 }
+
