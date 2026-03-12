@@ -1,7 +1,10 @@
 int currentScreen = 0;
+ArrayList<DataPoint> flights;
 
 void setup() {
   size(1200, 700);
+  flights = new ArrayList<DataPoint>();
+  loadData("flights2k(1) (1).csv");
 }
 
 void draw() {
@@ -81,5 +84,19 @@ void keyPressed() {
   if (key == ESC) {
     key = 0;
     currentScreen = 0;
+  }
+}
+
+
+void loadData(String filename) {
+  String[] lines = loadStrings(filename);
+  
+  // start at 1 to skip header
+  for (int i = 1; i < lines.length; i++) {
+    String[] cols = split(lines[i], ',');
+    if (cols.length < 17) continue;
+    
+    DataPoint dp = new DataPoint(cols);
+    flights.add(dp);
   }
 }
