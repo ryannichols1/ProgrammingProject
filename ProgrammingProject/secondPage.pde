@@ -1,5 +1,3 @@
-currentScreen = 1;
-
 void drawInfo(){
   background(255);
   
