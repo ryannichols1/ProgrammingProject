@@ -67,13 +67,13 @@ void drawHomeScreen() {
 
   // flight arcs
   for (int i = 0; i < 5; i++) {
-    float sx = flightPaths[i][0];
-    float sy = flightPaths[i][1];
-    float ex = flightPaths[i][2];
-    float ey = flightPaths[i][3];
+    float sx = flightPaths[i][0]; // Start of x flight
+    float sy = flightPaths[i][1]; // Start of y flight
+    float ex = flightPaths[i][2]; // end of x flight
+    float ey = flightPaths[i][3]; // end  of y flight
 
     stroke(0, 220, 220, 30);
-    line(sx,sy,ex,ey);
+    line(sx,sy,ex,ey); // the line of the full path the circle is moving
 
 
     float t = flightT[i];
