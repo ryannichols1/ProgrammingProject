@@ -3,6 +3,7 @@ ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
 PopularDestinations popularDestinations;
 departingFlights departingFlightsChart;
+FlightsByTimeOfDay timeOfDayChart;
 
 void setup() {
   size(1200, 700);
@@ -11,6 +12,7 @@ void setup() {
   delayChart = new DelayBarChart(flights);
   departingFlightsChart = new departingFlights(flights);
   popularDestinations = new PopularDestinations(flights);
+  timeOfDayChart = new FlightsByTimeOfDay(flights);
 }
 
 void draw() {
@@ -27,6 +29,9 @@ void draw() {
   }
   else if (currentScreen == 4) {
   popularDestinations.draw();
+  }
+  else if (currentScreen == 5) {
+    timeOfDayChart.draw();
   }
 
 }
@@ -85,6 +90,10 @@ void mousePressed() {
     if (mouseX > width - 250 && mouseX < width - 30 
    && mouseY > height - 60 && mouseY < height - 15) {
     currentScreen++;
+  }
+  
+  if (currentScreen > 5) {
+        currentScreen = 0;
   }
 }
 
