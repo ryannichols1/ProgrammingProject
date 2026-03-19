@@ -68,6 +68,6 @@ class DepartingFlights {
       text(tempAirports[i], x + barWidth / 2, height - 55);
     }
 
-    drawButton("Next ", width - 250, height - 60, 220, 45);
+
   }
 }

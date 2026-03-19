@@ -100,7 +100,6 @@ class PopularDestinations {
     drawMap(mapX, mapY, mapW, mapH);
     drawRankedList(listX, listY, listW, listH);
 
-    drawButton("Next", width - 250, height - 60, 220, 45);
   }
 
   void drawMap(float mx, float my, float mw, float mh) {

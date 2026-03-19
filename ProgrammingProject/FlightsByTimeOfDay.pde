@@ -20,7 +20,7 @@ class FlightsByTimeOfDay {
     // Key probs useless
     textSize(10);
     fill(255, 200, 0); 
-    text("Key:\nYellow slice is the busiest hour", 75, TOP);
+    text("Key:\nYellow: Busiest Hour", CORNER + 50, CORNER + 15);
 
     // Count the data
     int[] hourlyCounts = new int[24];
@@ -94,6 +94,6 @@ class FlightsByTimeOfDay {
     fill(200);
     text("24 HRS", cx, cy);
 
-    drawButton("Home ", width - 250, height - 60, 220, 45);
+  
   }
 }

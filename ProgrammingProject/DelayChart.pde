@@ -15,6 +15,10 @@ class DelayBarChart {
     textSize(22);
     text("Average Departure Delay by Airline", width / 2, 20);
 
+    textSize(10);
+    fill(255); 
+    text("Key:\n Green: Early\n Red: Late", CORNER + 30, CORNER + 15);
+
     String[] airlineCodes = {"AA", "AS", "B6", "DL", "F9", "G4", "HA", "NK", "UA", "WN"};
     int numOfAirlines = airlineCodes.length;
     float[] totalDelay = new float[numOfAirlines];
@@ -64,7 +68,7 @@ class DelayBarChart {
       textSize(13);
       text(airlineCodes[i], x + barWidth / 2, height - 55);
     }
-    drawButton("Next ", width - 250, height - 60, 220, 45);
+  
 
   }
 }

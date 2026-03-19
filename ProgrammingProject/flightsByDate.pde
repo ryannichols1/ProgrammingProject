@@ -103,6 +103,6 @@ void draw() {
       text(weeklyCount[i], x + barWidth / 2, height - 90);
     }
 
-    drawButton("Next ", width - 250, height - 60, 220, 45);
+  
   }
 }
