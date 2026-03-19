@@ -17,7 +17,7 @@ class FlightsByTimeOfDay {
     textSize(22);
     text("Flights by Time of Day (24-Hour Clock)", width / 2, 20);
 
-    // Key
+    // Key probs useless
     textSize(10);
     fill(255, 200, 0); 
     text("Key:\nYellow slice is the busiest hour", 75, TOP);

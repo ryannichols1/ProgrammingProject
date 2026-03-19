@@ -2,7 +2,7 @@ int currentScreen = 0;
 ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
 PopularDestinations popularDestinations;
-departingFlights departingFlightsChart;
+DepartingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
 
 void setup() {
@@ -10,7 +10,7 @@ void setup() {
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
   delayChart = new DelayBarChart(flights);
-  departingFlightsChart = new departingFlights(flights);
+  departingFlightsChart = new DepartingFlights(flights);
   popularDestinations = new PopularDestinations(flights);
   timeOfDayChart = new FlightsByTimeOfDay(flights);
 }
@@ -91,7 +91,7 @@ void mousePressed() {
    && mouseY > height - 60 && mouseY < height - 15) {
     currentScreen++;
   }
-  
+
   if (currentScreen > 5) {
         currentScreen = 0;
   }

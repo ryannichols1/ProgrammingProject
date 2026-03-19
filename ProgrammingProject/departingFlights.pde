@@ -1,7 +1,7 @@
-class departingFlights {
+class DepartingFlights {
   ArrayList<DataPoint> flights;
 
-  departingFlights(ArrayList<DataPoint> flights) {
+  DepartingFlights(ArrayList<DataPoint> flights) {
     this.flights = flights;
   }
 
