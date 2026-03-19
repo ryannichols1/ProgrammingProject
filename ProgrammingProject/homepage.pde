@@ -4,6 +4,16 @@ DelayBarChart delayChart;
 PopularDestinations popularDestinations;
 departingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
+String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day"}; 
+int sideBarW = 160;
+
+// Flight dots
+float[][] flightPaths = new float[5][4]; // Where each flight goes, start and end point
+float[] flightT = new float[5];
+
+
+
+
 
 void setup() {
   size(1200, 700);
@@ -13,6 +23,8 @@ void setup() {
   departingFlightsChart = new departingFlights(flights);
   popularDestinations = new PopularDestinations(flights);
   timeOfDayChart = new FlightsByTimeOfDay(flights);
+  setUpFlights();
+
 }
 
 void draw() {
@@ -33,11 +45,44 @@ void draw() {
   else if (currentScreen == 5) {
     timeOfDayChart.draw();
   }
+  drawSidebar();
 
 }
 
 void drawHomeScreen() {
   background(5, 15, 40);
+
+  // city dots
+  fill(0, 220, 220, 50);
+  noStroke();
+  randomSeed(42);
+  for (int i = 0; i < 40; i++) {
+    ellipse(random(sideBarW + 30, width - 30), random(30, height - 30), 4, 4);
+  }
+  randomSeed((int) random(10000));
+
+  // flight arcs
+  for (int i = 0; i < 5; i++) {
+    float sx = flightPaths[i][0];
+    float sy = flightPaths[i][1];
+    float ex = flightPaths[i][2];
+    float ey = flightPaths[i][3];
+
+    stroke(0, 220, 220, 30);
+    line(sx,sy,ex,ey);
+
+
+    float t = flightT[i];
+    noStroke();
+    fill(0, 220, 220);
+    ellipse(lerp(sx, ex, t), lerp(sy, ey, t), 8, 8);
+
+    flightT[i] += 0.003;
+    if (flightT[i] > 1){
+      flightT[i] = 0;
+    }
+  
+
 
   // top accent bar
   noStroke();
@@ -55,47 +100,22 @@ void drawHomeScreen() {
   textSize(15);
   text("International Commercial Flight Data", width/2, height/2 - 30);
 
-  // button
-  float btnW = 220;
-  float btnH = 55;
-  float btnX = width/2 - btnW/2;
-  float btnY = height/2 + 40;
+ 
 
-  boolean hovering = mouseX > btnX && mouseX < btnX + btnW 
-                  && mouseY > btnY && mouseY < btnY + btnH;
-
-  fill(hovering ? color(0, 100, 200) : color(0, 180, 220));
-  rect(btnX, btnY, btnW, btnH, 8);
-
-  fill(255);
-  textSize(18);
-  text("Enter", width/2, btnY + btnH/2);
-
-  cursor(hovering ? HAND : ARROW);
-}
+}}
 
 
 void mousePressed() {
-  if (currentScreen == 0) {
-    float btnW = 220;
-    float btnH = 55;
-    float btnX = width/2 - btnW/2;
-    float btnY = height/2 + 40;
-
-    if (mouseX > btnX && mouseX < btnX + btnW 
-     && mouseY > btnY && mouseY < btnY + btnH) {
-      currentScreen = 1;
+  if (mouseX < sideBarW) {
+    for (int i = 0; i < pageNames.length; i++) {
+      float y = 100 + i * 50;
+    if (mouseY > y - 15 && mouseY < y + 15){
+      currentScreen = i;
     }
   }
-    if (mouseX > width - 250 && mouseX < width - 30 
-   && mouseY > height - 60 && mouseY < height - 15) {
-    currentScreen++;
-  }
-  
-  if (currentScreen > 5) {
-        currentScreen = 0;
   }
 }
+
 
 void keyPressed() {
   if (key == ESC) {
@@ -150,4 +170,37 @@ String[] parseCSVLine(String line) {
   
   String[] result = new String[fields.size()];
   return fields.toArray(result);
+}
+
+
+void setUpFlights(){
+  for(int i = 0; i < 5; i++){
+    flightPaths[i][0] = random(200, width * 0.4);
+    flightPaths[i][1] = random(120,height - 120);
+    flightPaths[i][2] = random(width * 0.6,width - 50 );
+    flightPaths[i][3] = random(120, height - 120);
+    flightT[1] = random(1);
+  }
+}
+
+
+void drawSidebar(){
+  
+  noStroke();
+  fill(10, 15, 30);
+  rect(0, 0, sideBarW, height);
+
+  for(int i = 0; i < pageNames.length; i++){
+    float y = 100 + i * 50;
+
+    if (i == currentScreen) fill(0, 220, 220);
+    else fill(120);
+
+    textAlign(LEFT, CENTER);
+    textSize(15);
+    text(pageNames[i], 20, y);
+  }
+
+
+
 }
