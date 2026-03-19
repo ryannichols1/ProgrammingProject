@@ -1,18 +1,23 @@
 int currentScreen = 0;
 ArrayList<DataPoint> flights;
+DelayBarChart delayChart;
 
 void setup() {
   size(1200, 700);
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
+  delayChart = new DelayBarChart(flights);
 }
 
 void draw() {
   if (currentScreen == 0) {
     drawHomeScreen();
-  } else {
+  } else if(currentScreen == 1){
     drawInfo();
   }
+   else if (currentScreen == 2) {
+    delayChart.draw();
+}
 }
 
 void drawHomeScreen() {
@@ -66,6 +71,10 @@ void mousePressed() {
       currentScreen = 1;
     }
   }
+    if (mouseX > width - 250 && mouseX < width - 30 
+   && mouseY > height - 60 && mouseY < height - 15) {
+    currentScreen++;
+  }
 }
 
 void keyPressed() {
@@ -75,6 +84,20 @@ void keyPressed() {
   }
 }
 
+
+void drawButton(String label, float x, float y, float w, float h) {
+  boolean hovering = mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h;
+  if (hovering) {
+    fill(0, 100, 200);
+  } else {
+    fill(0, 180, 220);
+  }  noStroke();
+  rect(x, y, w, h, 8);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(16);
+  text(label, x + w / 2, y + h / 2);
+}
 
 void loadData(String filename) {
   String[] lines = loadStrings(filename);

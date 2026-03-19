@@ -38,6 +38,7 @@ void drawInfo(){
       fill(0, 150, 0);
       text("OK", 550, rowY);
     }
+    drawButton("Next ", width - 250, height - 60, 220, 45);
   }
 }
 
