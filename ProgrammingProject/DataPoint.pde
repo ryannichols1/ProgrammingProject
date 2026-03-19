@@ -29,4 +29,12 @@ class DataPoint {
     return (actualDepHour * 60 + actualDepMinute) - (scheduledDepHour * 60 + scheduledDepMinute);
 
   }
+  int getFlightDayOfWeek(){
+    String day = flightDate.substring(3,5);
+    int dayOfWeekIndex = Integer.parseInt(day);
+    while(dayOfWeekIndex>7){
+      dayOfWeekIndex-=7;
+    }
+    return dayOfWeekIndex;
+  }
 }
