@@ -14,16 +14,14 @@ class FlightsByTimeOfDay {
     fill(255);
     textAlign(CENTER, TOP);
     textSize(22);
-    text("Flights by Time of Day (Hourly)", width / 2, 20);
+    text("Flights by Time of Day (24-Hour Clock)", width / 2, 20);
 
-    // Create 24 buckets for each hour of the day (0-23)
     int[] hourlyCounts = new int[24];
     int maxCount = 0;
 
-    // Count the flights per hour
     for (DataPoint dp : flights) {
-      if (dp.scheduledDepTime >= 0) { // Ensure valid time
-        int hour = dp.scheduledDepTime / 100; // Extract the hour (e.g., 1430 / 100 = 14)
+      if (dp.scheduledDepTime >= 0) { 
+        int hour = dp.scheduledDepTime / 100; 
         if (hour >= 0 && hour <= 23) {
           hourlyCounts[hour]++;
           if (hourlyCounts[hour] > maxCount) {
@@ -33,38 +31,100 @@ class FlightsByTimeOfDay {
       }
     }
 
-    // Draw the bars
-    float spacing = (width - 160) / 24.0;
-    float barWidth = spacing * 0.7;
+    // Chart center coordinates
+    float cx = width / 2;
+    float cy = height / 2 + 20;
+    float innerRadius = 80;
+    float maxRadius = 250;
+
+    boolean showTooltip = false;
+    int hoverHour = -1;
+
+    // Calculate mouse angle and distance from center for the hover effect
+    float d = dist(mouseX, mouseY, cx, cy);
+    float mouseAngle = atan2(mouseY - cy, mouseX - cx);
+    if (mouseAngle < -HALF_PI) mouseAngle += TWO_PI; // Adjust so 0 starts at the top
+
+    pushMatrix();
+    translate(cx, cy);
 
     for (int i = 0; i < 24; i++) {
-      float x = 80 + spacing * i + (spacing - barWidth) / 2;
-      // Map the height relative to the busiest hour
-      float barHeight = map(hourlyCounts[i], 0, maxCount, 0, 350);
-      float y = height - 100 - barHeight;
+      // Map the hour to a 360-degree circle (starting at -HALF_PI, which is the top/12 o'clock)
+      float angle = map(i, 0, 24, 0, TWO_PI) - HALF_PI;
+      float nextAngle = map(i + 1, 0, 24, 0, TWO_PI) - HALF_PI;
+      
+      float barLength = map(hourlyCounts[i], 0, maxCount, innerRadius, maxRadius);
 
-      noStroke();
-      fill(0, 180, 220);
-      // Highlight the busiest hours in a different color
-      if (hourlyCounts[i] == maxCount && maxCount > 0) {
-        fill(255, 200, 0); 
+      // Check if mouse is hovering over this specific slice of the "pie"
+      boolean isHovering = d > innerRadius && d < barLength && mouseAngle >= angle && mouseAngle < nextAngle;
+
+      // Draw the radial bar (using a thick stroke)
+      strokeCap(SQUARE);
+      strokeWeight(12);
+      
+      if (isHovering) {
+        stroke(100, 220, 255); // Highlight color
+        showTooltip = true;
+        hoverHour = i;
+      } else if (hourlyCounts[i] == maxCount && maxCount > 0) {
+        stroke(255, 200, 0); // Gold for the busiest hour
+      } else {
+        stroke(0, 180, 220); // Standard blue
       }
-      rect(x, y, barWidth, barHeight, 4, 4, 0, 0);
+      
+      line(cos(angle) * innerRadius, sin(angle) * innerRadius, cos(angle) * barLength, sin(angle) * barLength);
 
-      // Display the flight count above the bar
-      fill(255);
-      textAlign(CENTER, BOTTOM);
-      textSize(10);
-      text(hourlyCounts[i], x + barWidth / 2, y - 5);
-
-      // Display the hour label below the bar
+      // Draw the hour labels in a circle around the outside
       fill(200);
-      textAlign(CENTER, TOP);
+      noStroke();
+      float labelX = cos(angle) * (maxRadius + 30);
+      float labelY = sin(angle) * (maxRadius + 30);
+      textAlign(CENTER, CENTER);
       textSize(11);
-      text(i + ":00", x + barWidth / 2, height - 90);
+      text(i + ":00", labelX, labelY);
+    }
+    
+    // Draw the inner circle to make it look clean
+    fill(5, 15, 40);
+    noStroke();
+    ellipse(0, 0, innerRadius * 2 - 10, innerRadius * 2 - 10);
+    
+    // Put a clock icon or text in the center
+    fill(100, 160, 200);
+    textSize(14);
+    text("24 HRS", 0, 0);
+
+    popMatrix(); // Reset translation so the button and tooltip draw in the correct place!
+
+    if (showTooltip) {
+      drawTooltip(hoverHour, hourlyCounts[hoverHour], mouseX, mouseY);
     }
 
-    // Change the button text to 'Home' since this is the last screen
     drawButton("Home ", width - 250, height - 60, 220, 45);
+  }
+  
+  void drawTooltip(int hour, int count, float mx, float my) {
+    String timeText = String.format("%02d:00 - %02d:00", hour, (hour + 1) % 24);
+    String countText = count + " total flights";
+    
+    float boxW = 130;
+    float boxH = 50;
+    float boxX = (mx + boxW + 20 > width) ? mx - boxW - 10 : mx + 15;
+    float boxY = my - 25;
+
+    fill(20, 35, 70, 240);
+    stroke(0, 180, 220);
+    strokeWeight(1.5);
+    rect(boxX, boxY, boxW, boxH, 6);
+    
+    noStroke();
+    fill(255);
+    textAlign(LEFT, TOP);
+    textSize(13);
+    text(timeText, boxX + 10, boxY + 8);
+    
+    fill(180, 220, 255);
+    textSize(11);
+    text(countText, boxX + 10, boxY + 28);
   }
 }
