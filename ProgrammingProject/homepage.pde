@@ -96,17 +96,10 @@ void mousePressed() {
    && mouseY > height - 60 && mouseY < height - 15) {
     currentScreen++;
   }
-<<<<<<< HEAD
 
   if (currentScreen > 5) {
         currentScreen = 0;
   }
-=======
-  
-  // if (currentScreen > 5) {
-  //       currentScreen = 0;
-  // }
->>>>>>> ab33c4137a5c6ecb2956d2de2f7223dac2dd7151
 }
 
 void keyPressed() {
