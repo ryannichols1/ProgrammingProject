@@ -65,6 +65,5 @@ class FlightsByTimeOfDay {
     }
 
     // Change the button text to 'Home' since this is the last screen
-    drawButton("Home ", width - 250, height - 60, 220, 45);
-  }
+drawButton("Next ", width - 250, height - 60, 220, 45);  }
 }

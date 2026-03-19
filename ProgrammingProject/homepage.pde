@@ -4,6 +4,7 @@ DelayBarChart delayChart;
 PopularDestinations popularDestinations;
 departingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
+flightsByDate flightsByDate;
 
 void setup() {
   size(1200, 700);
@@ -13,6 +14,7 @@ void setup() {
   departingFlightsChart = new departingFlights(flights);
   popularDestinations = new PopularDestinations(flights);
   timeOfDayChart = new FlightsByTimeOfDay(flights);
+  flightsByDate = new flightsByDate(flights);
 }
 
 void draw() {
@@ -32,6 +34,9 @@ void draw() {
   }
   else if (currentScreen == 5) {
     timeOfDayChart.draw();
+  }
+  else if (currentScreen == 6){
+    flightsByDate.draw();
   }
 
 }
@@ -92,9 +97,9 @@ void mousePressed() {
     currentScreen++;
   }
   
-  if (currentScreen > 5) {
-        currentScreen = 0;
-  }
+  // if (currentScreen > 5) {
+  //       currentScreen = 0;
+  // }
 }
 
 void keyPressed() {
