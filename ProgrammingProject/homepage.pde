@@ -4,8 +4,8 @@ DelayBarChart delayChart;
 PopularDestinations popularDestinations;
 DepartingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
-<<<<<<< HEAD
-String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day"}; 
+flightsByDate flightsByDate;
+String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Date"}; 
 int sideBarW = 160;
 
 // Flight dots
@@ -15,9 +15,6 @@ float[] flightT = new float[5];
 
 
 
-=======
-flightsByDate flightsByDate;
->>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
 
 void setup() {
   size(1200, 700);
@@ -27,12 +24,8 @@ void setup() {
   departingFlightsChart = new DepartingFlights(flights);
   popularDestinations = new PopularDestinations(flights);
   timeOfDayChart = new FlightsByTimeOfDay(flights);
-<<<<<<< HEAD
-  setUpFlights();
-
-=======
   flightsByDate = new flightsByDate(flights);
->>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
+  setUpFlights();
 }
 
 void draw() {
@@ -53,13 +46,10 @@ void draw() {
   else if (currentScreen == 5) {
     timeOfDayChart.draw();
   }
-<<<<<<< HEAD
-  drawSidebar();
-=======
-  else if (currentScreen == 6){
+  else if (currentScreen == 6) {
     flightsByDate.draw();
   }
->>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
+  drawSidebar();
 
 }
 
@@ -127,18 +117,10 @@ void mousePressed() {
       currentScreen = i;
     }
   }
-<<<<<<< HEAD
-=======
-    if (mouseX > width - 250 && mouseX < width - 30 
-   && mouseY > height - 60 && mouseY < height - 15) {
-    currentScreen++;
-  }
-
-  if (currentScreen > 5) {
-        currentScreen = 0;
->>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
-  }
 }
+}
+  
+ 
 
 
 void keyPressed() {
