@@ -79,9 +79,16 @@ void drawHomeScreen() {
     float t = flightT[i];
     noStroke();
     fill(0, 220, 220);
-    ellipse(lerp(sx, ex, t), lerp(sy, ey, t), 8, 8);
+    ellipse(lerp(sx, ex, t), lerp(sy, ey, t), 8, 8); // 8, 8 is the width and height of the dot
+    //just "give me a point X% of the way between A and B". 
+    // Increase that percentage a tiny bit every frame, so the dot moves. When it hits 100%, we reset to 0% and it loops.
 
-    flightT[i] += 0.003;
+    // lerp(start, end, t) = Linear Interpolation
+    // It returns a value between start and end based on t.
+    // Example: lerp(100, 500, 0.0) = 100  (at the start)
+    //          lerp(100, 500, 0.5) = 300  (halfway
+
+    flightT[i] += 0.003; // moves the dot based on the percentage of t in the lerp function
     if (flightT[i] > 1){
       flightT[i] = 0;
     }
