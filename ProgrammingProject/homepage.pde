@@ -1,12 +1,14 @@
 int currentScreen = 0;
 ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
+departingFlights departingFlightsChart;
 
 void setup() {
   size(1200, 700);
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
   delayChart = new DelayBarChart(flights);
+  departingFlightsChart = new departingFlights(flights);
 }
 
 void draw() {
@@ -17,7 +19,10 @@ void draw() {
   }
    else if (currentScreen == 2) {
     delayChart.draw();
-}
+  } 
+  else if (currentScreen == 3) {
+  departingFlightsChart.draw();
+  }
 }
 
 void drawHomeScreen() {
