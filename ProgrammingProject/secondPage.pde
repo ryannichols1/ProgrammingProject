@@ -9,8 +9,8 @@ void drawInfo(){
   textSize(11);
   fill(80);
   int y = 55;
-  text("Date", 100, y);
-  text("Airline", 240, y);
+  text("Date", 170, y);
+  text("Airline", 300, y);
   text("Flight#", 360, y);
   text("From", 460, y);
   text("To", 700, y);
@@ -25,8 +25,8 @@ void drawInfo(){
     DataPoint f = flights.get(i);
     fill(0);
     textSize(13);
-    text(f.flightDate, 100, rowY);
-    text(f.airline, 240, rowY);
+    text(f.flightDate, 170, rowY);
+    text(f.airline, 300, rowY);
     text(str(f.flightNumber), 360, rowY);
     text(f.origin, 460, rowY);
     text(f.dest, 700, rowY);

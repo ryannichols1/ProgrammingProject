@@ -82,7 +82,7 @@ void draw() {
     float barWidth = spacing * 0.7;
     float scale = 1.0;
     for (int i = 0; i < 7; i++) {
-      float x = 80 + spacing * i + (spacing - barWidth) / 2;
+      float x = 160 + spacing * i + (spacing - barWidth) / 2;
       float barHeight = counts[i]*scale;
       float y = height - 100 - barHeight;
       fill(0,180,220);

@@ -94,7 +94,7 @@ class PopularDestinations {
     textSize(12);
     text("Based on " + totalFlights + " flights  •  Non-cancelled only", width / 2, 48);
 
-    float mapX = 30, mapY = 75, mapW = 620, mapH = 530;
+    float mapX = 160, mapY = 75, mapW = 490, mapH = 530;
     float listX = 670, listY = 75, listW = 510, listH = 530;
 
     drawMap(mapX, mapY, mapW, mapH);

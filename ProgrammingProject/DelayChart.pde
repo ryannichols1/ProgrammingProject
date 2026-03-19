@@ -52,7 +52,7 @@ class DelayBarChart {
     float barWidth = spacing * 0.6;
 
     for (int i = 0; i < numOfAirlines; i++) {
-      float x = 80 + spacing * i + (spacing - barWidth) / 2;
+      float x = 160 + spacing * i + (spacing - barWidth) / 2;
       float barHeight = map(abs(avgs[i]), 0, maxVal, 0, 350);
       float y = height - 80 - barHeight;
 
