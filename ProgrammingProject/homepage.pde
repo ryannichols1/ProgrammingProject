@@ -2,8 +2,9 @@ int currentScreen = 0;
 ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
 PopularDestinations popularDestinations;
-departingFlights departingFlightsChart;
+DepartingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
+<<<<<<< HEAD
 String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day"}; 
 int sideBarW = 160;
 
@@ -14,17 +15,24 @@ float[] flightT = new float[5];
 
 
 
+=======
+flightsByDate flightsByDate;
+>>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
 
 void setup() {
   size(1200, 700);
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
   delayChart = new DelayBarChart(flights);
-  departingFlightsChart = new departingFlights(flights);
+  departingFlightsChart = new DepartingFlights(flights);
   popularDestinations = new PopularDestinations(flights);
   timeOfDayChart = new FlightsByTimeOfDay(flights);
+<<<<<<< HEAD
   setUpFlights();
 
+=======
+  flightsByDate = new flightsByDate(flights);
+>>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
 }
 
 void draw() {
@@ -45,7 +53,13 @@ void draw() {
   else if (currentScreen == 5) {
     timeOfDayChart.draw();
   }
+<<<<<<< HEAD
   drawSidebar();
+=======
+  else if (currentScreen == 6){
+    flightsByDate.draw();
+  }
+>>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
 
 }
 
@@ -113,6 +127,16 @@ void mousePressed() {
       currentScreen = i;
     }
   }
+<<<<<<< HEAD
+=======
+    if (mouseX > width - 250 && mouseX < width - 30 
+   && mouseY > height - 60 && mouseY < height - 15) {
+    currentScreen++;
+  }
+
+  if (currentScreen > 5) {
+        currentScreen = 0;
+>>>>>>> 87b41036d38f66a3c1322e333aac0e7f6df50408
   }
 }
 
