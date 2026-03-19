@@ -7,9 +7,6 @@ class PopularDestinations {
   int      totalFlights = 0;
   int      maxCount   = 1;
 
-  float[]  animProgress = new float[10];
-  float    globalAnim   = 0;
-
   java.util.HashMap<String, float[]> airportCoords;
 
   PopularDestinations(ArrayList<DataPoint> flights) {
@@ -84,11 +81,6 @@ class PopularDestinations {
   void draw() {
     background(5, 15, 40);
 
-    globalAnim = min(1.0, globalAnim + 0.012);
-    for (int i = 0; i < 10; i++) {
-      animProgress[i] = min(1.0, animProgress[i] + 0.018 / (i * 0.3 + 1));
-    }
-
     noStroke();
     fill(0, 180, 220);
     rect(0, 0, width, 4);
@@ -127,37 +119,26 @@ class PopularDestinations {
 
       float[] coords = airportCoords.get(code);
       float lon = coords[0], lat = coords[1];
-
       if (lon < -130) continue;
 
       float sx = map(lon, lonMin, lonMax, mx + padX, mx + mw - padX);
       float sy = map(lat, latMax, latMin, my + padY, my + mh - padY);
 
       float rankFade = map(i, 0, 9, 1.0, 0.45);
-      float prog = animProgress[i];
 
-      float pulse = (frameCount * 0.03 + i * 0.6) % 1.0;
-      float ringR = map(topCounts[i], 0, maxCount, 10, 30) * (1 + pulse * 1.2);
-      noFill();
-      stroke(0, 180, 220, 180 * rankFade * (1 - pulse));
-      strokeWeight(1.5);
-      ellipse(sx, sy, ringR * 2, ringR * 2);
-
-      float pulse2 = (frameCount * 0.018 + i * 0.9) % 1.0;
-      float ringR2 = map(topCounts[i], 0, maxCount, 14, 36) * (1 + pulse2 * 0.8);
-      stroke(0, 140, 200, 120 * rankFade * (1 - pulse2));
-      ellipse(sx, sy, ringR2 * 2, ringR2 * 2);
-
-      float dotR = map(topCounts[i], 0, maxCount, 5, 16) * prog;
+      // Static dot only — no rings
+      float dotR = map(topCounts[i], 0, maxCount, 5, 16);
       noStroke();
       fill(lerpColor(color(0, 180, 220), color(255, 80, 80), (float)i / 9), 230 * rankFade);
       ellipse(sx, sy, dotR * 2, dotR * 2);
 
-      fill(220, 240, 255, 220 * prog * rankFade);
+      // Airport code label
+      fill(220, 240, 255, 220 * rankFade);
       textAlign(CENTER, BOTTOM);
       textSize(10);
       text(code, sx, sy - dotR - 3);
 
+      // Rank badge for top 3
       if (i < 3) {
         fill(i == 0 ? color(255, 200, 0) : i == 1 ? color(180, 180, 180) : color(200, 120, 50));
         textSize(9);
@@ -175,49 +156,51 @@ class PopularDestinations {
 
   void drawRankedList(float lx, float ly, float lw, float lh) {
     float rowH = lh / 10.5;
+    // Fixed column positions
+    float colRank   = lx + 22;
+    float colCode   = lx + 50;
+    float colPct    = lx + lw - 130;
+    float colCount  = lx + lw - 10;
 
     for (int i = 0; i < 10; i++) {
       float rowY = ly + i * rowH;
-      float prog = animProgress[i];
-      if (prog <= 0) continue;
+      float midY = rowY + rowH / 2;
 
+      // Row background
       boolean isTop3 = i < 3;
       fill(isTop3 ? color(0, 40, 80, 180) : color(10, 25, 55, 160));
       noStroke();
-      rect(lx, rowY + 2, lw * prog, rowH - 4, 6);
+      rect(lx, rowY + 2, lw, rowH - 4, 6);
 
       color medalCol = i == 0 ? color(255, 200, 0) :
                        i == 1 ? color(180, 180, 180) :
                        i == 2 ? color(200, 120, 50) :
                                 color(0, 140, 180);
 
+      // Rank number
       fill(medalCol);
       textAlign(CENTER, CENTER);
       textSize(i < 3 ? 17 : 14);
-      text(i + 1, lx + 22, rowY + rowH / 2);
+      text(i + 1, colRank, midY);
 
+      // Airport code
       fill(255);
       textAlign(LEFT, CENTER);
       textSize(i < 3 ? 16 : 14);
-      text(topCodes[i], lx + 44, rowY + rowH / 2);
+      text(topCodes[i], colCode, midY);
 
+      // Percentage — right-aligned before flight count
+      float pct = 100.0 * topCounts[i] / totalFlights;
+      fill(100, 160, 200);
+      textAlign(RIGHT, CENTER);
+      textSize(12);
+      text(nf(pct, 0, 1) + "%", colPct, midY);
+
+      // Flight count — right edge
       fill(0, 180, 220);
       textAlign(RIGHT, CENTER);
       textSize(13);
-      text(topCounts[i] + " flights", lx + lw - 10, rowY + rowH / 2);
-
-      float barMaxW = lw - 140;
-      float barW = map(topCounts[i], 0, maxCount, 0, barMaxW) * prog;
-      fill(medalCol, 80);
-      rect(lx + 44, rowY + rowH - 9, barMaxW, 4, 2);
-      fill(medalCol, 200);
-      rect(lx + 44, rowY + rowH - 9, barW, 4, 2);
-
-      float pct = 100.0 * topCounts[i] / totalFlights;
-      fill(100, 160, 200);
-      textAlign(LEFT, CENTER);
-      textSize(11);
-      text(nf(pct, 0, 1) + "%", lx + 44 + barMaxW + 6, rowY + rowH / 2);
+      text(topCounts[i] + " flights", colCount, midY);
     }
   }
 }

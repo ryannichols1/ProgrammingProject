@@ -7,63 +7,93 @@ class FlightsByTimeOfDay {
 
   void draw() {
     background(5, 15, 40);
-    noStroke();
+    
+    // Title
     fill(0, 180, 220);
+    noStroke();
     rect(0, 0, width, 4);
-
     fill(255);
     textAlign(CENTER, TOP);
     textSize(22);
-    text("Flights by Time of Day (Hourly)", width / 2, 20);
+    text("Flights by Time of Day (24-Hour Clock)", width / 2, 20);
 
-    // Create 24 buckets for each hour of the day (0-23)
+    // Key
+    textSize(10);
+    fill(255, 200, 0); 
+    text("Key:\nYellow slice is the busiest hour", 75, TOP);
+
+    // Count the data
     int[] hourlyCounts = new int[24];
     int maxCount = 0;
 
-    // Count the flights per hour
-    for (DataPoint dp : flights) {
-      if (dp.scheduledDepTime >= 0) { // Ensure valid time
-        int hour = dp.scheduledDepTime / 100; // Extract the hour (e.g., 1430 / 100 = 14)
-        if (hour >= 0 && hour <= 23) {
+    for (int i = 0; i < flights.size(); i++) 
+    {
+      DataPoint dp = flights.get(i);
+      if (dp.scheduledDepTime >= 0) 
+      { 
+        int hour = dp.scheduledDepTime / 100; 
+        if (hour >= 0 && hour <= 23) 
+        {
           hourlyCounts[hour]++;
-          if (hourlyCounts[hour] > maxCount) {
+          if (hourlyCounts[hour] > maxCount) 
+          {
             maxCount = hourlyCounts[hour];
           }
         }
       }
     }
 
-    // Draw the bars
-    float spacing = (width - 160) / 24.0;
-    float barWidth = spacing * 0.7;
+    // Clock Math
+    float cx = width / 2;
+    float cy = height / 2 + 20;
+    float angleStep = TWO_PI / 24; // This divides a full circle into 24 equal slices
 
+    // Draw the 24 pie slices
     for (int i = 0; i < 24; i++) {
-      float x = 80 + spacing * i + (spacing - barWidth) / 2;
-      // Map the height relative to the busiest hour
-      float barHeight = map(hourlyCounts[i], 0, maxCount, 0, 350);
-      float y = height - 100 - barHeight;
+      // Map the flight count to the size (width/height) of the pie slice
+      float sliceSize = map(hourlyCounts[i], 0, maxCount, 120, 450); 
+      
+      // Calculate where this slice starts and stops (-HALF_PI puts 0:00 at the top)
+      float startAngle = (i * angleStep) - HALF_PI;
+      float stopAngle = startAngle + angleStep;
 
-      noStroke();
-      fill(0, 180, 220);
-      // Highlight the busiest hours in a different color
-      if (hourlyCounts[i] == maxCount && maxCount > 0) {
+      // Color the busiest hour gold, rest are blue
+      if (hourlyCounts[i] == maxCount && maxCount > 0) 
+      {
         fill(255, 200, 0); 
+      } else 
+      {
+        fill(0, 180, 220); 
       }
-      rect(x, y, barWidth, barHeight, 4, 4, 0, 0);
 
-      // Display the flight count above the bar
+      stroke(5, 15, 40); // Dark border around slice 
+      strokeWeight(2);
+      
+      // Draw the pie slice!
+      arc(cx, cy, sliceSize, sliceSize, startAngle, stopAngle, PIE);
+
+      // Draw the text labels
+      float textRadius = 250; 
+      float midAngle = startAngle + (angleStep / 2); 
+      
+      float textX = cx + (cos(midAngle) * textRadius);
+      float textY = cy + (sin(midAngle) * textRadius);
+
       fill(255);
-      textAlign(CENTER, BOTTOM);
-      textSize(10);
-      text(hourlyCounts[i], x + barWidth / 2, y - 5);
-
-      // Display the hour label below the bar
-      fill(200);
-      textAlign(CENTER, TOP);
+      textAlign(CENTER, CENTER);
       textSize(11);
-      text(i + ":00", x + barWidth / 2, height - 90);
+      
+      text(i + ":00\n(" + hourlyCounts[i] + ")", textX, textY);
     }
 
-    // Change the button text to 'Home' since this is the last screen
-drawButton("Next ", width - 250, height - 60, 220, 45);  }
+    // Draw a circle
+    fill(5, 15, 40);
+    noStroke();
+    ellipse(cx, cy, 100, 100);
+    
+    fill(200);
+    text("24 HRS", cx, cy);
+
+    drawButton("Home ", width - 250, height - 60, 220, 45);
+  }
 }
