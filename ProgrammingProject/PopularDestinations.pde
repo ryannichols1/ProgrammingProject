@@ -1,14 +1,14 @@
 class PopularDestinations {
   ArrayList<DataPoint> flights;
 
-  String[] topCodes   = new String[10];
-  String[] topNames   = new String[10];
-  int[]    topCounts  = new int[10];
-  int      totalFlights = 0;
-  int      maxCount   = 1;
+  String[] topCodes  = new String[10];
+  String[] topNames  = new String[10];
+  int[] topCounts  = new int[10];
+  int totalFlights = 0;
+  int maxCount   = 1;
 
   java.util.HashMap<String, float[]> airportCoords;
-
+  
   PopularDestinations(ArrayList<DataPoint> flights) {
     this.flights = flights;
     buildTopDestinations();
@@ -107,7 +107,7 @@ class PopularDestinations {
     fill(8, 25, 60);
     stroke(0, 80, 120);
     strokeWeight(1);
-    rect(mx, my, mw, mh, 10);
+    rect(mx, my, mw, mh); 
 
     float lonMin = -125, lonMax = -65;
     float latMin = 24,   latMax = 50;
@@ -126,7 +126,7 @@ class PopularDestinations {
 
       float rankFade = map(i, 0, 9, 1.0, 0.45);
 
-      // Static dot only — no rings
+      // Static dot only no rings
       float dotR = map(topCounts[i], 0, maxCount, 5, 16);
       noStroke();
       fill(lerpColor(color(0, 180, 220), color(255, 80, 80), (float)i / 9), 230 * rankFade);
@@ -170,7 +170,7 @@ class PopularDestinations {
       boolean isTop3 = i < 3;
       fill(isTop3 ? color(0, 40, 80, 180) : color(10, 25, 55, 160));
       noStroke();
-      rect(lx, rowY + 2, lw, rowH - 4, 6);
+      rect(lx, rowY + 2, lw, rowH - 4);
 
       color medalCol = i == 0 ? color(255, 200, 0) :
                        i == 1 ? color(180, 180, 180) :
@@ -196,7 +196,7 @@ class PopularDestinations {
       textSize(12);
       text(nf(pct, 0, 1) + "%", colPct, midY);
 
-      // Flight count — right edge
+      // Flight count 0right edge
       fill(0, 180, 220);
       textAlign(RIGHT, CENTER);
       textSize(13);
