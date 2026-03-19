@@ -1,6 +1,7 @@
 int currentScreen = 0;
 ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
+PopularDestinations popularDestinations;
 departingFlights departingFlightsChart;
 
 void setup() {
@@ -9,6 +10,7 @@ void setup() {
   loadData("flights2k(1) (1).csv");
   delayChart = new DelayBarChart(flights);
   departingFlightsChart = new departingFlights(flights);
+  popularDestinations = new PopularDestinations(flights);
 }
 
 void draw() {
@@ -23,6 +25,10 @@ void draw() {
   else if (currentScreen == 3) {
   departingFlightsChart.draw();
   }
+  else if (currentScreen == 4) {
+  popularDestinations.draw();
+  }
+
 }
 
 void drawHomeScreen() {
@@ -107,12 +113,32 @@ void drawButton(String label, float x, float y, float w, float h) {
 void loadData(String filename) {
   String[] lines = loadStrings(filename);
   
-  // start at 1 to skip header
   for (int i = 1; i < lines.length; i++) {
-    String[] cols = split(lines[i], ',');
+    String[] cols = parseCSVLine(lines[i]);
     if (cols.length < 17) continue;
-    
     DataPoint dp = new DataPoint(cols);
     flights.add(dp);
   }
+}
+
+String[] parseCSVLine(String line) {
+  ArrayList<String> fields = new ArrayList<String>();
+  boolean inQuotes = false;
+  StringBuilder current = new StringBuilder();
+  
+  for (int i = 0; i < line.length(); i++) {
+    char c = line.charAt(i);
+    if (c == '"') {
+      inQuotes = !inQuotes;
+    } else if (c == ',' && !inQuotes) {
+      fields.add(current.toString().trim());
+      current = new StringBuilder();
+    } else {
+      current.append(c);
+    }
+  }
+  fields.add(current.toString().trim());
+  
+  String[] result = new String[fields.size()];
+  return fields.toArray(result);
 }
