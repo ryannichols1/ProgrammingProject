@@ -6,7 +6,7 @@ departingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
 
 void setup() {
-  size(1200, 700);
+  size(1300, 700);
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
   delayChart = new DelayBarChart(flights);
