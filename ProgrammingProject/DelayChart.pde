@@ -27,7 +27,7 @@ class DelayBarChart {
     for (DataPoint dp : flights) {
       if (dp.cancelled == 1 || dp.depTime < 0 || dp.scheduledDepTime < 0)continue;
       for (int i = 0; i < numOfAirlines; i++) {
-        if (dp.airline.equals(airlineCodes[i])) {
+        if (dp.airline.equals(airlineCodes[i])) { 
           totalDelay[i] += dp.getDelay();
           count[i]++;
           break;
