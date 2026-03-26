@@ -1,44 +1,42 @@
-class Queries{
-ArrayList<DataPoint> flights;
-Queries(ArrayList<DataPoint> flights) {
-    this.flights = flights;
+// by airport (origin or destination)
+ArrayList<DataPoint> queryByAirport(String airportCode, ArrayList<DataPoint> dataSet) {
+  ArrayList<DataPoint> results = new ArrayList<DataPoint>();
+  for (DataPoint dp : dataSet) {
+    if (dp.origin.equals(airportCode) || dp.dest.equals(airportCode)) {
+      results.add(dp);
+    }
   }
-
-void queryByAirport(String airportCode){
-    ArrayList<DataPoint> results = new ArrayList<DataPoint>();
-    for (DataPoint dp : flights) {
-        String origin = dp.origin;
-        if ((origin).equals(airportCode)) {
-            results.add(dp);
-        }
-    }
-}
-void queryByAirline(String airlineCode){
-    ArrayList<DataPoint> results = new ArrayList<DataPoint>();
-    for (DataPoint dp : flights) {
-        String airline = dp.airline;
-        if ((airline).equals(airlineCode)) {
-            results.add(dp);
-        }
-    }
-}
-void queryByDay(String date){
-ArrayList<DataPoint> results = new ArrayList<DataPoint>();
-    for (DataPoint dp : flights) {
-        String date1 = dp.flightDate;
-        if ((date1).equals(date)) {
-            results.add(dp);
-        }
-    }
+  return results;
 }
 
-void queryByFlightNum(int flightNum){ {
-ArrayList<DataPoint> results = new ArrayList<DataPoint>();
-    for (DataPoint dp : flights) {
-        int num = dp.flightNumber;
-        if (num==flightNum) {
-            results.add(dp);
-        }
+//by airline
+ArrayList<DataPoint> queryByAirline(String airlineCode, ArrayList<DataPoint> dataSet) {
+  ArrayList<DataPoint> results = new ArrayList<DataPoint>();
+  for (DataPoint dp : dataSet) {
+    if (dp.airline.equals(airlineCode)) {
+      results.add(dp);
     }
+  }
+  return results;
 }
-}}
+
+//by date
+ArrayList<DataPoint> queryByDay(String date, ArrayList<DataPoint> dataSet) {
+  ArrayList<DataPoint> results = new ArrayList<DataPoint>();
+  for (DataPoint dp : dataSet) {
+    if (dp.flightDate.equals(date)) {
+      results.add(dp);
+    }
+  }
+  return results;
+}
+// by flight number
+ArrayList<DataPoint> queryByFlightNum(int flightNum, ArrayList<DataPoint> dataSet) {
+  ArrayList<DataPoint> results = new ArrayList<DataPoint>();
+  for (DataPoint dp : dataSet) {
+    if (dp.flightNumber == flightNum) {
+      results.add(dp);
+    }
+  }
+  return results;
+}
