@@ -5,7 +5,7 @@ PopularDestinations popularDestinations;
 DepartingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
 flightsByDate flightsByDate;
-String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Date"}; 
+String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Date"};
 int sideBarW = 160;
 PImage planeImg;
 
@@ -21,18 +21,21 @@ SearchBox searchBox;
 
 void setup() {
   size(1200, 700);
-  
+
   planeImg = loadImage("Airplanes.png");
   planeImg.resize(40, 40);
-  
+
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
+
+  searchBox = new SearchBox(10, height - 80, sideBarW - 20, 28);
+  
   currentData = flights;
   delayChart = new DelayBarChart(currentData);
-departingFlightsChart = new DepartingFlights(currentData);
-popularDestinations = new PopularDestinations(currentData);
-timeOfDayChart = new FlightsByTimeOfDay(currentData);
-flightsByDate = new flightsByDate(currentData);
+  departingFlightsChart = new DepartingFlights(currentData);
+  popularDestinations = new PopularDestinations(currentData);
+  timeOfDayChart = new FlightsByTimeOfDay(currentData);
+  flightsByDate = new flightsByDate(currentData);
   setUpFlights();
 }
 void rebuildCharts() {
@@ -45,26 +48,20 @@ void rebuildCharts() {
 void draw() {
   if (currentScreen == 0) {
     drawHomeScreen();
-  } else if(currentScreen == 1){
+  } else if (currentScreen == 1) {
     drawInfo();
-  }
-   else if (currentScreen == 2) {
+  } else if (currentScreen == 2) {
     delayChart.draw();
-  } 
-  else if (currentScreen == 3) {
-  departingFlightsChart.draw();
-  }
-  else if (currentScreen == 4) {
-  popularDestinations.draw();
-  }
-  else if (currentScreen == 5) {
+  } else if (currentScreen == 3) {
+    departingFlightsChart.draw();
+  } else if (currentScreen == 4) {
+    popularDestinations.draw();
+  } else if (currentScreen == 5) {
     timeOfDayChart.draw();
-  }
-  else if (currentScreen == 6) {
+  } else if (currentScreen == 6) {
     flightsByDate.draw();
   }
   drawSidebar();
-
 }
 
 void drawHomeScreen() {
@@ -87,7 +84,7 @@ void drawHomeScreen() {
     float ey = flightPaths[i][3]; // end  of y flight
 
     stroke(0, 220, 220, 30);
-    line(sx,sy,ex,ey); // the line of the full path the circle is moving
+    line(sx, sy, ex, ey); // the line of the full path the circle is moving
 
 
     float t = flightT[i];
@@ -106,52 +103,91 @@ void drawHomeScreen() {
     //          lerp(100, 500, 0.5) = 300  (halfway
 
     flightT[i] += 0.003; // moves the dot based on the percentage of t in the lerp function
-    if (flightT[i] > 1){
+    if (flightT[i] > 1) {
       flightT[i] = 0;
     }
-  
 
 
-  // top accent bar
-  noStroke();
-  fill(0, 180, 220);
-  rect(0, 0, width, 4);
 
-  // title
-  fill(255);
-  textAlign(CENTER, CENTER);
-  textSize(42);
-  text("Welcome to Flight Tracker", width/2, height/2 - 80);
+    // top accent bar
+    noStroke();
+    fill(0, 180, 220);
+    rect(0, 0, width, 4);
 
-  // subtitle
-  fill(140, 170, 200);
-  textSize(15);
-  text("International Commercial Flight Data", width/2, height/2 - 30);
+    // title
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(42);
+    text("Welcome to Flight Tracker", width/2, height/2 - 80);
 
- 
-
-}}
+    // subtitle
+    fill(140, 170, 200);
+    textSize(15);
+    text("International Commercial Flight Data", width/2, height/2 - 30);
+  }
+}
 
 
 void mousePressed() {
+  searchBox.mousePressed();
   if (mouseX < sideBarW) {
     for (int i = 0; i < pageNames.length; i++) {
       float y = 100 + i * 50;
-    if (mouseY > y - 15 && mouseY < y + 15){
-      currentScreen = i;
+      if (mouseY > y - 15 && mouseY < y + 15) {
+        currentScreen = i;
+      }
     }
   }
 }
-}
-  
- 
+
 
 
 void keyPressed() {
+  if (searchBox.active) {
+    searchBox.keyPressed();
+    if (keyCode == ENTER) {
+      runSearch(searchBox.text.trim());
+    }
+    if (key == ESC) key = 0;
+    return;
+  }
   if (key == ESC) {
     key = 0;
     currentScreen = 0;
   }
+  if (key == '0') {
+    currentData = flights;
+    currentQuery = "All Flights";
+    rebuildCharts();
+  }
+}
+void runSearch(String input) {
+  if (input.length() == 0) {
+    currentData = flights;
+    currentQuery = "All Flights";
+    rebuildCharts();
+    return;
+  }
+
+  String upper = input.toUpperCase();
+
+  if (upper.length() == 3) {
+    currentData = queryByAirport(upper, flights);
+    currentQuery = "Airport: " + upper;
+  } else if (upper.length() == 2) {
+    currentData = queryByAirline(upper, flights);
+    currentQuery = "Airline: " + upper;
+  } else {
+    currentData = queryByAirport(upper, flights);
+    currentQuery = "Search: " + upper;
+  }
+
+  if (currentData.size() == 0) {
+    currentQuery = "No results for: " + input;
+    currentData = flights;
+  }
+
+  rebuildCharts();
 }
 
 
@@ -161,7 +197,8 @@ void drawButton(String label, float x, float y, float w, float h) {
     fill(0, 100, 200);
   } else {
     fill(0, 180, 220);
-  }  noStroke();
+  }
+  noStroke();
   rect(x, y, w, h, 8);
   fill(255);
   textAlign(CENTER, CENTER);
@@ -171,7 +208,7 @@ void drawButton(String label, float x, float y, float w, float h) {
 
 void loadData(String filename) {
   String[] lines = loadStrings(filename);
-  
+
   for (int i = 1; i < lines.length; i++) {
     String[] cols = parseCSVLine(lines[i]);
     if (cols.length < 17) continue;
@@ -184,7 +221,7 @@ String[] parseCSVLine(String line) {
   ArrayList<String> fields = new ArrayList<String>();
   boolean inQuotes = false;
   StringBuilder current = new StringBuilder();
-  
+
   for (int i = 0; i < line.length(); i++) {
     char c = line.charAt(i);
     if (c == '"') {
@@ -197,30 +234,30 @@ String[] parseCSVLine(String line) {
     }
   }
   fields.add(current.toString().trim());
-  
+
   String[] result = new String[fields.size()];
   return fields.toArray(result);
 }
 
 
-void setUpFlights(){
-  for(int i = 0; i < 5; i++){
+void setUpFlights() {
+  for (int i = 0; i < 5; i++) {
     flightPaths[i][0] = random(200, width * 0.4);
-    flightPaths[i][1] = random(120,height - 120);
-    flightPaths[i][2] = random(width * 0.6,width - 50 );
+    flightPaths[i][1] = random(120, height - 120);
+    flightPaths[i][2] = random(width * 0.6, width - 50 );
     flightPaths[i][3] = random(120, height - 120);
     flightT[i] = random(1);
   }
 }
 
 
-void drawSidebar(){
-  
+void drawSidebar() {
+
   noStroke();
   fill(10, 15, 30);
   rect(0, 0, sideBarW, height);
 
-  for(int i = 0; i < pageNames.length; i++){
+  for (int i = 0; i < pageNames.length; i++) {
     float y = 100 + i * 50;
 
     if (i == currentScreen) fill(0, 220, 220);
@@ -230,14 +267,10 @@ void drawSidebar(){
     textSize(15);
     text(pageNames[i], 20, y);
   }
+  searchBox.display();
   fill(0, 220, 220);
-textAlign(LEFT, BOTTOM);
-textSize(10);
-// text("Filter: " + currentQuery, 10, height - 30);
-text("Keys: A=ATL B=LAX", 10, height - 18);
-text("D=DateRange R=Routes", 10, height - 6);
-text("L=Lateness 0=Reset", 10, height + 6);
-
-
-
+  textAlign(LEFT, BOTTOM);
+  textSize(10);
+  text("Filter: " + currentQuery, 10, height - 100);
+  text("Press 0 to reset", 10, height - 88);
 }
