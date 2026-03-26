@@ -221,6 +221,13 @@ void drawSidebar(){
     textSize(15);
     text(pageNames[i], 20, y);
   }
+  fill(0, 220, 220);
+textAlign(LEFT, BOTTOM);
+textSize(10);
+// text("Filter: " + currentQuery, 10, height - 30);
+text("Keys: A=ATL B=LAX", 10, height - 18);
+text("D=DateRange R=Routes", 10, height - 6);
+text("L=Lateness 0=Reset", 10, height + 6);
 
 
 
