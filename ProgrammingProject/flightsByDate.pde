@@ -61,9 +61,7 @@ class flightsByDate {
     counts[4] = wedCount;
     counts[5] = thursCount;
     counts[6] = friCount;
-    for(int x = 0; x < 7; x++){
-      println(weeklyCount[x] + ": " + counts[x]);
-    }
+    
   }
 
 void draw() {

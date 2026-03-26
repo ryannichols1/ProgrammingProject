@@ -7,6 +7,7 @@ FlightsByTimeOfDay timeOfDayChart;
 flightsByDate flightsByDate;
 String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Date"}; 
 int sideBarW = 160;
+PImage planeImg;
 
 // Flight dots
 float[][] flightPaths = new float[5][4]; // Where each flight goes, start and end point
@@ -18,6 +19,10 @@ float[] flightT = new float[5];
 
 void setup() {
   size(1200, 700);
+  
+  planeImg = loadImage("Airplanes.png");
+  planeImg.resize(40, 40);
+  
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
   delayChart = new DelayBarChart(flights);
@@ -59,7 +64,7 @@ void drawHomeScreen() {
   // city dots
   fill(0, 220, 220, 50);
   noStroke();
-  randomSeed(42);
+  randomSeed(42); //  every frame gets the exact same "random" numbers, so the dots stay still.
   for (int i = 0; i < 40; i++) {
     ellipse(random(sideBarW + 30, width - 30), random(30, height - 30), 4, 4);
   }
@@ -77,11 +82,14 @@ void drawHomeScreen() {
 
 
     float t = flightT[i];
-    noStroke();
-    fill(0, 220, 220);
-    ellipse(lerp(sx, ex, t), lerp(sy, ey, t), 8, 8); // 8, 8 is the width and height of the dot
-    //just "give me a point X% of the way between A and B". 
-    // Increase that percentage a tiny bit every frame, so the dot moves. When it hits 100%, we reset to 0% and it loops.
+    imageMode(CENTER);
+    tint(0, 220, 220);
+    image(planeImg, lerp(sx, ex, t), lerp(sy, ey, t));
+    noTint();
+
+
+
+
 
     // lerp(start, end, t) = Linear Interpolation
     // It returns a value between start and end based on t.
@@ -192,7 +200,7 @@ void setUpFlights(){
     flightPaths[i][1] = random(120,height - 120);
     flightPaths[i][2] = random(width * 0.6,width - 50 );
     flightPaths[i][3] = random(120, height - 120);
-    flightT[1] = random(1);
+    flightT[i] = random(1);
   }
 }
 
