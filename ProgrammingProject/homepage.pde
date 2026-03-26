@@ -267,10 +267,22 @@ void drawSidebar() {
     textSize(15);
     text(pageNames[i], 20, y);
   }
-  searchBox.display();
-  fill(0, 220, 220);
-  textAlign(LEFT, BOTTOM);
+  
+  fill(250, 255, 255, 30);
+  stroke(0, 220, 220, 80);
+  rect(10, height - 130, sideBarW - 20, 40, 5);
+  
+  fill(255);
+  noStroke();
+  textAlign(LEFT, CENTER);
   textSize(10);
-  text("Filter: " + currentQuery, 10, height - 100);
-  text("Press 0 to reset", 10, height - 88);
+  text( "e.g AA, WN, DL", 16, height-118);
+  text("3 letter = airport (ATL)",16,height - 104);
+
+
+  
+  
+  
+  
+  searchBox.display();
 }

@@ -1,5 +1,4 @@
-class SearchBox{
-    float x, y, w, h;
+class SearchBox{float x, y, w, h;
     String text = "";
     boolean active = false;
     
@@ -39,3 +38,4 @@ class SearchBox{
         }
     }
 }
+    
