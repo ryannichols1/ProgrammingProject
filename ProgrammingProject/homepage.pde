@@ -14,7 +14,9 @@ float[][] flightPaths = new float[5][4]; // Where each flight goes, start and en
 float[] flightT = new float[5];
 
 
-
+ArrayList<DataPoint> currentData;
+String currentQuery = "All Flights";
+SearchBox searchBox;
 
 
 void setup() {
@@ -25,14 +27,21 @@ void setup() {
   
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
-  delayChart = new DelayBarChart(flights);
-  departingFlightsChart = new DepartingFlights(flights);
-  popularDestinations = new PopularDestinations(flights);
-  timeOfDayChart = new FlightsByTimeOfDay(flights);
-  flightsByDate = new flightsByDate(flights);
+  currentData = flights;
+  delayChart = new DelayBarChart(currentData);
+departingFlightsChart = new DepartingFlights(currentData);
+popularDestinations = new PopularDestinations(currentData);
+timeOfDayChart = new FlightsByTimeOfDay(currentData);
+flightsByDate = new flightsByDate(currentData);
   setUpFlights();
 }
-
+void rebuildCharts() {
+  delayChart = new DelayBarChart(currentData);
+  departingFlightsChart = new DepartingFlights(currentData);
+  popularDestinations = new PopularDestinations(currentData);
+  timeOfDayChart = new FlightsByTimeOfDay(currentData);
+  flightsByDate = new flightsByDate(currentData);
+}
 void draw() {
   if (currentScreen == 0) {
     drawHomeScreen();
