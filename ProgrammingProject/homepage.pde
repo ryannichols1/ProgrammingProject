@@ -161,10 +161,58 @@ void keyPressed() {
     rebuildCharts();
   }
 }
+// void runSearch(String input) {
+//   if (input.length() == 0) {
+//     currentData = flights;
+//     currentQuery = "All Flights";
+//     rebuildCharts();
+//     return;
+//   }
+
+//   String upper = input.toUpperCase();
+
+//   if (upper.length() == 3) {
+//     currentData = queryByAirport(upper, flights);
+//     currentQuery = "Airport: " + upper;
+//   } else if (upper.length() == 2) {
+//     currentData = queryByAirline(upper, flights);
+//     currentQuery = "Airline: " + upper;
+//   } else {
+//     currentData = queryByAirport(upper, flights);
+//     currentQuery = "Search: " + upper;
+//   }
+
+//   if (currentData.size() == 0) {
+//     currentQuery = "No results for: " + input;
+//     currentData = flights;
+//   }
+
+//   rebuildCharts();
+// }
+
 void runSearch(String input) {
   if (input.length() == 0) {
     currentData = flights;
     currentQuery = "All Flights";
+    rebuildCharts();
+    return;
+  }
+
+  if (input.contains("/")) {
+    String[] parts = input.split("-");
+    if (parts.length == 2) {
+      String startDate = parts[0].trim();
+      String endDate   = parts[1].trim();
+      currentData = queryByDateRange(startDate, endDate, flights);
+      currentQuery = "Dates: " + startDate + " to " + endDate;
+    } else {
+      currentQuery = "Bad date format. Use MM/DD/YYYY-MM/DD/YYYY";
+      currentData = flights;
+    }
+    if (currentData.size() == 0) {
+      currentQuery = "No flights in that range";
+      currentData = flights;
+    }
     rebuildCharts();
     return;
   }
@@ -189,7 +237,6 @@ void runSearch(String input) {
 
   rebuildCharts();
 }
-
 
 void drawButton(String label, float x, float y, float w, float h) {
   boolean hovering = mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h;

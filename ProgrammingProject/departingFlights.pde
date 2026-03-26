@@ -1,3 +1,4 @@
+
 class DepartingFlights {
   ArrayList<DataPoint> flights;
 
@@ -37,15 +38,26 @@ class DepartingFlights {
       }
     }
 
+    for (int i = 0; i < numAirports - 1; i++) {
+      for (int j = 0; j < numAirports - 1 - i; j++) {
+        if (tempCounts[j] < tempCounts[j + 1]) {
+          int tmpC = tempCounts[j];
+          tempCounts[j] = tempCounts[j + 1];
+          tempCounts[j + 1] = tmpC;
+          String tmpA = tempAirports[j];
+          tempAirports[j] = tempAirports[j + 1];
+          tempAirports[j + 1] = tmpA;
+        }
+      }
+    }
+
     int display = min(numAirports, 10);
 
-    
     float maxVal = 1;
     for (int i = 0; i < display; i++) {
       if (tempCounts[i] > maxVal) maxVal = tempCounts[i];
     }
 
-    // draws bars for chart
     float spacing = (width - 160) / display;
     float barWidth = spacing * 0.6;
 
@@ -67,7 +79,5 @@ class DepartingFlights {
       textSize(13);
       text(tempAirports[i], x + barWidth / 2, height - 55);
     }
-
-
   }
 }
