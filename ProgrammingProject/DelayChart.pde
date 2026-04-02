@@ -57,8 +57,8 @@ class DelayBarChart {
 
     for (int i = 0; i < numOfAirlines; i++) {
       float x = 160 + spacing * i + (spacing - barWidth) / 2;
-      float barHeight = map(abs(avgs[i]), 0, maxVal, 0, 350);
-      float y = height - 80 - barHeight;
+      float barHeight = map(abs(avgs[i]), 0, maxVal, 0, 300);
+      float y = height - 130 - barHeight;
 
       noStroke();
       fill(avgs[i] >= 0 ? color(230, 76, 60) : color(46, 204, 113));
@@ -70,7 +70,7 @@ class DelayBarChart {
 
       fill(200);
       textSize(13);
-      text(airlines.get(i), x + barWidth / 2, height - 55);
+      text(airlines.get(i), x + barWidth / 2, height - 105);
     }
   }
 }

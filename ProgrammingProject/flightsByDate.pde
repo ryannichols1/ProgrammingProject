@@ -82,7 +82,7 @@ void draw() {
     for (int i = 0; i < 7; i++) {
       float x = 160 + spacing * i + (spacing - barWidth) / 2;
       float barHeight = counts[i]*scale;
-      float y = height - 100 - barHeight;
+      float y = height - 150 - barHeight;
       fill(0,180,220);
       rect(x,y,barWidth,barHeight);
 
@@ -98,7 +98,7 @@ void draw() {
       fill(200);
       textAlign(CENTER, TOP);
       textSize(11);
-      text(weeklyCount[i], x + barWidth / 2, height - 90);
+      text(weeklyCount[i], x + barWidth / 2, height - 140);
     }
 
   

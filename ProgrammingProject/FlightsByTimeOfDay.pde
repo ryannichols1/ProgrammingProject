@@ -45,7 +45,7 @@ class FlightsByTimeOfDay {
 
     // Clock Math
     float cx = width / 2;
-    float cy = height / 2 + 20;
+    float cy = height / 2 ;
     float angleStep = TWO_PI / 24; // This divides a full circle into 24 equal slices
 
     // Draw the 24 pie slices
@@ -73,7 +73,7 @@ class FlightsByTimeOfDay {
       arc(cx, cy, sliceSize, sliceSize, startAngle, stopAngle, PIE);
 
       // Draw the text labels
-      float textRadius = 250; 
+      float textRadius = 230; 
       float midAngle = startAngle + (angleStep / 2); 
       
       float textX = cx + (cos(midAngle) * textRadius);
