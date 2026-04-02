@@ -29,8 +29,7 @@ void setup() {
   // loadData("flights100k(1) (1).csv");
   // loadData("flights_full (1).csv");
   
-  searchBox = new SearchBox(10, height - 80, sideBarW - 20, 28);
-  
+searchBox = new SearchBox(width/2 - 150, height - 50, 300, 28);  
   currentData = flights;
   delayChart = new DelayBarChart(currentData);
   departingFlightsChart = new DepartingFlights(currentData);
@@ -286,6 +285,6 @@ void drawSearchBar() {
   noStroke();
   textAlign(CENTER, CENTER);
   textSize(10);
-  text("Search by Airline or Airport or Date Range", width/2, height - 25);
+  text("Search by Airline or Airport or Date Range", width/2, height - 62);
   searchBox.display();
 }
