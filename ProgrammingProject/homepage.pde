@@ -5,7 +5,7 @@ PopularDestinations popularDestinations;
 DepartingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
 flightsByDate flightsByDate;
-String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Date"};
+String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Day"};
 int sideBarW = 160;
 PImage planeImg;
 
@@ -17,13 +17,27 @@ ArrayList<DataPoint> currentData;
 String currentQuery = "All Flights";
 SearchBox searchBox;
 
+<<<<<<< Updated upstream
+=======
+boolean twoK = true;
+>>>>>>> Stashed changes
 void setup() {
   size(1200, 700);
   planeImg = loadImage("Airplanes.png");
   planeImg.resize(40, 40);
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
+<<<<<<< Updated upstream
   searchBox = new SearchBox(width/2 - 150, height - 60, 300, 30);
+=======
+  
+  // loadData("flights10k(1) (1).csv");
+  // loadData("flights100k(1) (1).csv");
+  // loadData("flights_full (1).csv");
+  
+  searchBox = new SearchBox(10, height - 80, sideBarW - 20, 28);
+  
+>>>>>>> Stashed changes
   currentData = flights;
   delayChart = new DelayBarChart(currentData);
   departingFlightsChart = new DepartingFlights(currentData);
@@ -44,6 +58,7 @@ void rebuildCharts() {
 void draw() {
   if (currentScreen == 0) {
     drawHomeScreen();
+    drawButtonHomePage();
   } else if (currentScreen == 1) {
     drawInfo();
   } else if (currentScreen == 2) {
@@ -100,6 +115,23 @@ void drawHomeScreen() {
 }
 
 void mousePressed() {
+  if(currentScreen == 0){
+    if(mouseX > width/2 - 115 && mouseX < width/2 - 115 + 100 && mouseY > height/2 + 250 && mouseY < height/2 + 250 + 40){
+       flights.clear();
+      loadData("flights2k(1) (1).csv");
+       currentData = flights;
+       rebuildCharts();
+       twoK = true;
+      } else if(mouseX > width/2 - 5 && mouseX < width/2 - 5 + 100 && mouseY > height/2 + 250 && mouseY < height/2 + 250 + 40){
+        flights.clear();
+        loadData("flights10k(1) (1).csv");
+        currentData = flights;
+        rebuildCharts();
+        twoK = false;
+  
+      }
+    }
+  
   searchBox.mousePressed();
   if (mouseX < sideBarW) {
     for (int i = 0; i < pageNames.length; i++) {
@@ -188,6 +220,19 @@ void drawButton(String label, float x, float y, float w, float h) {
   textSize(16);
   text(label, x + w / 2, y + h / 2);
 }
+void drawButtonHomePage(){
+    text("Choose Dataset:", width/2-20, height/2 +230);
+    if(twoK){
+      text("2K", width/2+45, height/2 + 230);
+    }
+    else{
+      text("10K", width/2+45, height/2 + 230);
+    }
+    drawButton("2k", width/2 - 115, height/2 + 250, 100, 40);
+    drawButton("10k", width/2 - 5, height/2 + 250, 100, 40);
+
+}
+
 
 void loadData(String filename) {
   String[] lines = loadStrings(filename);
