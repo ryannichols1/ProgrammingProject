@@ -87,9 +87,6 @@ void draw() {
     for (int i = 0; i < 7; i++) {
       float x = 160 + spacing * i + (spacing - barWidth) / 2;
       float barHeight = counts[i]*scale;
-<<<<<<< Updated upstream
-      float y = height - 150 - barHeight;
-=======
       if(barHeight>height){
         percentage = true;
       }
@@ -97,7 +94,6 @@ void draw() {
         barHeight = (counts[i] / float(maxCount)) * 0.8 * (height - 100);
       }
       float y = height - 100 - barHeight;
->>>>>>> Stashed changes
       fill(0,180,220);
       rect(x,y,barWidth,barHeight);
 

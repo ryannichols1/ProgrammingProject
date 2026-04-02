@@ -17,19 +17,13 @@ ArrayList<DataPoint> currentData;
 String currentQuery = "All Flights";
 SearchBox searchBox;
 
-<<<<<<< Updated upstream
-=======
 boolean twoK = true;
->>>>>>> Stashed changes
 void setup() {
   size(1200, 700);
   planeImg = loadImage("Airplanes.png");
   planeImg.resize(40, 40);
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
-<<<<<<< Updated upstream
-  searchBox = new SearchBox(width/2 - 150, height - 60, 300, 30);
-=======
   
   // loadData("flights10k(1) (1).csv");
   // loadData("flights100k(1) (1).csv");
@@ -37,7 +31,6 @@ void setup() {
   
   searchBox = new SearchBox(10, height - 80, sideBarW - 20, 28);
   
->>>>>>> Stashed changes
   currentData = flights;
   delayChart = new DelayBarChart(currentData);
   departingFlightsChart = new DepartingFlights(currentData);
