@@ -28,7 +28,7 @@ void setup() {
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
 
-  searchBox = new SearchBox(10, height - 80, sideBarW - 20, 28);
+ searchBox = new SearchBox((width - (sideBarW - 20)) / 2, height - 35, sideBarW - 20, 28);
   
   currentData = flights;
   delayChart = new DelayBarChart(currentData);
@@ -317,7 +317,7 @@ void drawSidebar() {
   
   fill(250, 255, 255, 30);
   stroke(0, 220, 220, 80);
-  rect(10, height - 130, sideBarW - 20, 40, 5);
+  rect(10, height - 130, sideBarW - 20, 40);
   
   fill(255);
   noStroke();
