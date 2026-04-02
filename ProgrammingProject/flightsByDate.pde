@@ -109,7 +109,7 @@ void draw() {
       fill(200);
       textAlign(CENTER, TOP);
       textSize(11);
-      text(weeklyCount[i], x + barWidth / 2, height - 140);
+      text(weeklyCount[i], x + barWidth / 2, height - 90);
     }
 
   

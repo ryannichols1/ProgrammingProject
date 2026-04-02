@@ -64,7 +64,7 @@ class DepartingFlights {
     for (int i = 0; i < display; i++) {
       float x = 160 + spacing * i + (spacing - barWidth) / 2;
       float barHeight = map(tempCounts[i], 0, maxVal, 0, 350);
-      float y = height - 80 - barHeight;
+      float y = height - 130 - barHeight;
 
       noStroke();
       fill(0, 180, 220);
@@ -77,7 +77,7 @@ class DepartingFlights {
 
       fill(200);
       textSize(13);
-      text(tempAirports[i], x + barWidth / 2, height - 55);
+      text(tempAirports[i], x + barWidth / 2, height - 120);
     }
   }
 }

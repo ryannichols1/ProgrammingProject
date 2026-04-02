@@ -1,3 +1,5 @@
+import processing.sound.*;
+SoundFile bgMusic;
 int currentScreen = 0;
 ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
@@ -29,6 +31,9 @@ void setup() {
   // loadData("flights100k(1) (1).csv");
   // loadData("flights_full (1).csv");
   
+bgMusic = new SoundFile(this, "ambientgarden-coral-reef-30-mins-no-fx-189883_YPI2ZfEC.mp3");
+bgMusic.loop();
+
 searchBox = new SearchBox(width/2 - 150, height - 50, 300, 28);  
   currentData = flights;
   delayChart = new DelayBarChart(currentData);
@@ -55,17 +60,21 @@ void draw() {
     drawInfo();
   } else if (currentScreen == 2) {
     delayChart.draw();
+    drawSearchBar();
   } else if (currentScreen == 3) {
     departingFlightsChart.draw();
+    drawSearchBar();
   } else if (currentScreen == 4) {
     popularDestinations.draw();
+    drawSearchBar();
   } else if (currentScreen == 5) {
     timeOfDayChart.draw();
+    drawSearchBar();
   } else if (currentScreen == 6) {
     flightsByDate.draw();
+    drawSearchBar();
   }
   drawSidebar();
-  drawSearchBar();
 }
 
 void drawHomeScreen() {
