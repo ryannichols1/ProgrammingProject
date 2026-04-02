@@ -286,6 +286,6 @@ void drawSearchBar() {
   noStroke();
   textAlign(CENTER, CENTER);
   textSize(10);
-  text("Search by Airline or Airport or Date Range", width/2, height - 75);
+  text("Search by Airline or Airport or Date Range", width/2, height - 25);
   searchBox.display();
 }
