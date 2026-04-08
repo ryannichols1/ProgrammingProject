@@ -1,5 +1,7 @@
 import processing.sound.*;
 SoundFile bgMusic;
+PImage soundIcon;
+boolean isMuted = false;
 int currentScreen = 0;
 ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
@@ -33,6 +35,8 @@ void setup() {
   
 bgMusic = new SoundFile(this, "ambientgarden-coral-reef-30-mins-no-fx-189883_YPI2ZfEC.mp3");
 bgMusic.loop();
+
+soundIcon = loadImage("Adobe Express - file-5.png");
 
 searchBox = new SearchBox(width/2 - 150, height - 50, 300, 28);  
   currentData = flights;
@@ -75,6 +79,23 @@ void draw() {
     drawSearchBar();
   }
   drawSidebar();
+
+  float soundIconX = width - 50;
+  float soundIconY = 40;
+
+  image(soundIcon, soundIconX, soundIconY, 50, 50);
+
+  fill(255);
+  noStroke();
+  textAlign(CENTER, TOP);
+  textSize(12);
+
+  if (isMuted) {
+    text("Music off", soundIconX, soundIconY + 20);
+  } else {
+    text("Music on", soundIconX, soundIconY + 20);
+  }
+
 }
 
 void drawHomeScreen() {
@@ -141,6 +162,23 @@ void mousePressed() {
         currentScreen = i;
       }
     }
+  }
+
+  float soundIconX = width - 70;
+  float soundIconY = 20;
+
+  if (mouseX > soundIconX && mouseX < soundIconX + 50 && mouseY > soundIconY && mouseY < soundIconY + 50) 
+  {
+    isMuted = !isMuted; 
+    
+    if (isMuted) 
+    {
+      bgMusic.amp(0.0); 
+    } else 
+    {
+      bgMusic.amp(1.0); 
+    }
+    return;
   }
 }
 
