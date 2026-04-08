@@ -66,10 +66,10 @@ class FlightsByTimeOfDay {
         fill(0, 180, 220); 
       }
 
-      stroke(5, 15, 40); // Dark border around slice 
+      stroke(5, 15, 40); // Dark border 
       strokeWeight(2);
       
-      // Draw the pie slice!
+      // pie slice
       arc(cx, cy, sliceSize, sliceSize, startAngle, stopAngle, PIE);
 
       // Draw the text labels

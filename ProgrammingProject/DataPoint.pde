@@ -18,7 +18,7 @@ class DataPoint {
     dest = cols[7];
     scheduledDepTime = int(cols[11]);
     depTime = float(cols[12]);
-      cancelled = int(cols[15]);
+    cancelled = int(cols[15]);
     distance = float(cols[17]);
   }
   float getDelay() {
