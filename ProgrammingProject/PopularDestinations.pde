@@ -1,33 +1,38 @@
 class PopularDestinations {
   ArrayList<DataPoint> flights;
 
-  String[] topCodes  = new String[10];
-  String[] topNames  = new String[10];
-  int[] topCounts  = new int[10];
+  String[] topCodes  = new String[10]; // These are for the leaderboard of the top airport code 
+  String[] topNames  = new String[10]; // these are the top names of the airport 
+  int[] topCounts  = new int[10]; // the max count for the leaderboard 
   int totalFlights = 0;
   int maxCount   = 1;
 
-  java.util.HashMap<String, float[]> airportCoords;
+  java.util.HashMap<String, float[]> airportCoords; // initialising my hashmap
   
-  PopularDestinations(ArrayList<DataPoint> flights) {
+  PopularDestinations(ArrayList<DataPoint> flights) { // this is a constructor 
     this.flights = flights;
-    buildTopDestinations();
-    buildAirportCoords();
+    buildTopDestinations(); // method 
+    buildAirportCoords(); // method
+
   }
 
   void buildTopDestinations() {
     java.util.HashMap<String, Integer> countMap = new java.util.HashMap<String, Integer>();
-
+    // creating the hasmap above ( similar to dictionary )
     for (DataPoint dp : flights) {
       if (dp.cancelled == 1) continue;
       String code = dp.dest;
-      countMap.put(code, countMap.containsKey(code) ? countMap.get(code) + 1 : 1);
-    }
+      countMap.put(code, countMap.containsKey(code) ? countMap.get(code) + 1 : 1); // this checks if the hashmap 
+    } // this is for each loop and represents one flight record at a time
 
     for (int i = 0; i < 10; i++) {
       topCodes[i]  = "";
       topCounts[i] = 0;
     }
+    // This is the insertion sort method
+    // one loop thorugh the code
+    // then one counting 
+    // then it checks if it is going into the list and moves stuff and inserts at the correct position 
 
     for (String code : countMap.keySet()) {
       int cnt = countMap.get(code);
@@ -46,9 +51,12 @@ class PopularDestinations {
 
     for (int cnt : countMap.values()) totalFlights += cnt;
     maxCount = topCounts[0];
+    // loop thorugh every value in the hashmap and adds for totalflights 
   }
 
-  void buildAirportCoords() {
+  void buildAirportCoords() { // building second hashmap for co ords 
+    // the format for these are code then longitude then latitude 
+    // These are from ourairports.com/data adjusted some as Ryan said they wereny okay 
     airportCoords = new java.util.HashMap<String, float[]>();
     airportCoords.put("ATL", new float[]{-84.4, 33.6});
     airportCoords.put("LAX", new float[]{-118.4, 33.9});
@@ -76,6 +84,7 @@ class PopularDestinations {
     airportCoords.put("DCA", new float[]{-77.0, 38.9});
     airportCoords.put("SAN", new float[]{-117.2, 32.7});
     airportCoords.put("HNL", new float[]{-157.9, 21.3});
+
   }
 
   void draw() {
@@ -96,7 +105,9 @@ class PopularDestinations {
 
     float mapX = 160, mapY = 75, mapW = 490, mapH = 530;
     float listX = 670, listY = 75, listW = 510, listH = 530;
-
+    // X means to the left Y to the top 
+    // W means width 
+    // H means height
     drawMap(mapX, mapY, mapW, mapH);
     drawRankedList(listX, listY, listW, listH);
 
@@ -109,30 +120,35 @@ class PopularDestinations {
     rect(mx, my, mw, mh); 
 
     float lonMin = -125, lonMax = -65;
+    // these are just boundaries i had to set as Hawaii would be too far away 
     float latMin = 24,   latMax = 50;
-    float padX = 30, padY = 30;
+    float padX = 30, padY = 30; // this add a pixel on the edges 
 
     for (int i = 0; i < 10; i++) {
       String code = topCodes[i];
-      if (!airportCoords.containsKey(code)) continue;
+      if (!airportCoords.containsKey(code)) continue; // if not in skip prevent crashing 
 
       float[] coords = airportCoords.get(code);
+      // looking for co ords and if the lon < -130 skip as too far left 
       float lon = coords[0], lat = coords[1];
       if (lon < -130) continue;
 
-      float sx = map(lon, lonMin, lonMax, mx + padX, mx + mw - padX);
+      float sx = map(lon, lonMin, lonMax, mx + padX, mx + mw - padX); // This converts the co ords to pixels using map 
       float sy = map(lat, latMax, latMin, my + padY, my + mh - padY);
+      // TO FIND: 
+      // Atlanta eg range is 60 wide (-125-- -65) and atlanta is 40.6 deg from left edge so subtract = 40.6 so 40.6 degrees to the left 
+      // This converts the co ords into pixels 
+      // had to flip the lat max and min as y increases but lat increases upwards 
+      // sx/y mean screenx/y 
 
-      float rankFade = map(i, 0, 9, 1.0, 0.45);
+      
 
       // Static dot only no rings
-      float dotR = map(topCounts[i], 0, maxCount, 5, 16);
+      float dotR = map(topCounts[i], 0, maxCount, 5, 16); // 
       noStroke();
-      fill(lerpColor(color(0, 180, 220), color(255, 80, 80), (float)i / 9), 230 * rankFade);
       ellipse(sx, sy, dotR * 2, dotR * 2);
 
       // Airport code label
-      fill(220, 240, 255, 220 * rankFade);
       textAlign(CENTER, BOTTOM);
       textSize(10);
       text(code, sx, sy - dotR - 3);
