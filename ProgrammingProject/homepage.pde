@@ -10,7 +10,7 @@ DepartingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
 flightsByDate flightsByDate;
 String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Day"};
-int sideBarW = 160;
+int sideBarW = 122;
 PImage planeImg;
 
 // Flight dots

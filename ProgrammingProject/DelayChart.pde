@@ -60,6 +60,7 @@ class DelayBarChart {
       float barHeight = map(abs(avgs[i]), 0, maxVal, 0, 300);
       float y = height - 130 - barHeight;
 
+// red if avg delay greater than 0
       noStroke();
       fill(avgs[i] >= 0 ? color(230, 76, 60) : color(46, 204, 113));
       rect(x, y, barWidth, barHeight, 4, 4, 0, 0);
