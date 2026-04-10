@@ -1,4 +1,4 @@
-//Authorship Connor Nel, Vlad Manea, Ryan Nichols,  Callum Hughes 
+//Authorship Connor Nel, Vlad Manea, Ryan Nichols, Callum Hughes 
 
 class SearchBox {
   float x, y, w, h;

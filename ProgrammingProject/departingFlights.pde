@@ -43,6 +43,7 @@ class DepartingFlights {
       }
     }
 
+    // bubble sort to arrnage from busiest to quietest 
     for (int i = 0; i < numAirports - 1; i++) {
       for (int j = 0; j < numAirports - 1 - i; j++) {
         if (tempCounts[j] < tempCounts[j + 1]) {
@@ -66,6 +67,7 @@ class DepartingFlights {
     float spacing = (width - 160) / display;
     float barWidth = spacing * 0.6;
 
+    // draws each bar 
     for (int i = 0; i < display; i++) {
       float x = 160 + spacing * i + (spacing - barWidth) / 2;
       float barHeight = map(tempCounts[i], 0, maxVal, 0, 350);
@@ -75,11 +77,13 @@ class DepartingFlights {
       fill(0, 180, 220);
       rect(x, y, barWidth, barHeight, 4, 4, 0, 0);
 
+      // displays flight count abvoe bar 
       fill(255);
       textAlign(CENTER, CENTER);
       textSize(11);
       text(str(tempCounts[i]), x + barWidth / 2, y - 10);
 
+      // displays airport code below bar 
       fill(200);
       textSize(13);
       text(tempAirports[i], x + barWidth / 2, height - 120);

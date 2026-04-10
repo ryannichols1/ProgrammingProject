@@ -25,25 +25,26 @@ class DelayBarChart {
     fill(255);
     text("Key:\n Green: Early\n Red: Late", CORNER + 200, CORNER + 15);
 
+    // track each airline, it's total delay and its flight count
     ArrayList<String> airlines = new ArrayList<String>();
     ArrayList<Float> totals = new ArrayList<Float>();
     ArrayList<Integer> counts = new ArrayList<Integer>();
 
     for (DataPoint dp : flights) {
-      if (dp.cancelled == 1 || dp.depTime < 0) continue;
+      if (dp.cancelled == 1 || dp.depTime < 0) continue; //skips cancelled flights and any flight with invalid departure data
       int i = airlines.indexOf(dp.airline);
-      if (i == -1) {
+      if (i == -1) {          //if the airline is new, add it as a fresh entry 
         airlines.add(dp.airline);
         totals.add(dp.getDelay());
         counts.add(1);
-      } else {
+      } else {                // else add it to the running total and increase count
         totals.set(i, totals.get(i) + dp.getDelay());
         counts.set(i, counts.get(i) + 1);
       }
     }
 
     int numOfAirlines = airlines.size();
-    if (numOfAirlines == 0) return;
+    if (numOfAirlines == 0) return;   //safety check for no flights
     
 // get averages and find max
     float[] avgs = new float[numOfAirlines];
