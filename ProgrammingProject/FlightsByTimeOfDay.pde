@@ -19,12 +19,12 @@ class FlightsByTimeOfDay {
     textSize(22);
     text("Flights by Time of Day (24-Hour Clock)", width / 2, 20);
 
-    // Key probs useless
+    // key probs useless
     textSize(10);
     fill(255, 200, 0); 
-    text("Key:\nYellow: Busiest Hour", CORNER + 50, CORNER + 15);
+    text("Key:\nYellow == Busiest Hour", CORNER + 200, CORNER + 15);
 
-    // Count the data
+    // Count data
     int[] hourlyCounts = new int[24];
     int maxCount = 0;
 
@@ -45,12 +45,12 @@ class FlightsByTimeOfDay {
       }
     }
 
-    // Clock Math
+    // clock Maths
     float cx = width / 2;
     float cy = height / 2 ;
-    float angleStep = TWO_PI / 24; // This divides a full circle into 24 equal slices
+    float angleStep = TWO_PI / 24; // divides full circle into 24 equal slices
 
-    // Draw the 24 pie slices
+    // Draw 24 pie slices
     for (int i = 0; i < 24; i++) {
       // Map the flight count to the size (width/height) of the pie slice
       float sliceSize = map(hourlyCounts[i], 0, maxCount, 120, 450); 
