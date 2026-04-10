@@ -4,13 +4,15 @@ import processing.sound.*;
 SoundFile bgMusic;
 PImage soundIcon;
 boolean isMuted = false;
-int currentScreen = 0;
+int currentScreen = 0; // tracks which page is showing
+
 ArrayList<DataPoint> flights;
 DelayBarChart delayChart;
 PopularDestinations popularDestinations;
 DepartingFlights departingFlightsChart;
 FlightsByTimeOfDay timeOfDayChart;
 flightsByDate flightsByDate;
+
 String[] pageNames = {"Home", "Info", "DelayChart", "Departures", "Destinations", "Time of Day", "Flights by Day"};
 int sideBarW = 122;
 PImage planeImg;
@@ -23,7 +25,8 @@ ArrayList<DataPoint> currentData;
 String currentQuery = "All Flights";
 SearchBox searchBox;
 
-boolean twoK = true;
+boolean twoK = true; // tracks wether 2k or 10k dataset is being used
+
 void setup() {
   size(1200, 700);
   planeImg = loadImage("Airplanes.png");
@@ -31,15 +34,14 @@ void setup() {
   flights = new ArrayList<DataPoint>();
   loadData("flights2k(1) (1).csv");
   
-  // loadData("flights10k(1) (1).csv");
-  // loadData("flights100k(1) (1).csv");
-  // loadData("flights_full (1).csv");
-  
+ 
+// starts the music 
 bgMusic = new SoundFile(this, "ambientgarden-coral-reef-30-mins-no-fx-189883_YPI2ZfEC.mp3");
 bgMusic.loop();
 
 soundIcon = loadImage("Adobe Express - file-5.png");
 
+// sets up searchbar then applies currentData to all charts 
 searchBox = new SearchBox(width/2 - 150, height - 50, 300, 28);  
   currentData = flights;
   delayChart = new DelayBarChart(currentData);
@@ -50,6 +52,7 @@ searchBox = new SearchBox(width/2 - 150, height - 50, 300, 28);
   setUpFlights();
 }
 
+// when the search filter changes it rebuilds all charts 
 void rebuildCharts() {
   delayChart = new DelayBarChart(currentData);
   departingFlightsChart = new DepartingFlights(currentData);
@@ -58,6 +61,7 @@ void rebuildCharts() {
   flightsByDate = new flightsByDate(currentData);
 }
 
+// applies correct screen (based off currentScreen)
 void draw() {
   if (currentScreen == 0) {
     drawHomeScreen();
@@ -82,32 +86,33 @@ void draw() {
   }
   drawSidebar();
 
+  // draws sound icon in the top right corner 
   float soundIconX = width - 50;
   float soundIconY = 40;
-
   image(soundIcon, soundIconX, soundIconY, 50, 50);
-
   fill(255);
   noStroke();
   textAlign(CENTER, TOP);
   textSize(12);
-
   if (isMuted) {
     text("Music off", soundIconX, soundIconY + 20);
   } else {
     text("Music on", soundIconX, soundIconY + 20);
   }
-
 }
 
 void drawHomeScreen() {
   background(5, 15, 40);
+
+  // draws the random dots in background (to resemble stars)
   fill(0, 220, 220, 50);
   noStroke();
   randomSeed(42);
   for (int i = 0; i < 40; i++) {
     ellipse(random(sideBarW + 30, width - 30), random(30, height - 30), 4, 4);
   }
+
+  // uses lerp to advance plaens and reset them when they reach the end
   randomSeed((int) random(10000));
   for (int i = 0; i < 5; i++) {
     float sx = flightPaths[i][0];
@@ -128,6 +133,8 @@ void drawHomeScreen() {
     noStroke();
     fill(0, 180, 220);
     rect(0, 0, width, 4);
+
+    // titles on homapage 
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(42);
@@ -139,6 +146,8 @@ void drawHomeScreen() {
 }
 
 void mousePressed() {
+
+  // switches which dataset use based of which button is pressed on the hompage 
   if(currentScreen == 0){
     if(mouseX > width/2 - 115 && mouseX < width/2 - 115 + 100 && mouseY > height/2 + 250 && mouseY < height/2 + 250 + 40){
        flights.clear();
@@ -157,6 +166,8 @@ void mousePressed() {
     }
   
   searchBox.mousePressed();
+
+  // detects what page was clicked in sidebar
   if (mouseX < sideBarW) {
     for (int i = 0; i < pageNames.length; i++) {
       float y = 100 + i * 50;
@@ -166,9 +177,9 @@ void mousePressed() {
     }
   }
 
+  // mute/unmute if mute icon is clicked
   float soundIconX = width - 70;
   float soundIconY = 20;
-
   if (mouseX > soundIconX && mouseX < soundIconX + 50 && mouseY > soundIconY && mouseY < soundIconY + 50) 
   {
     isMuted = !isMuted; 
@@ -188,14 +199,14 @@ void keyPressed() {
   if (searchBox.active) {
     searchBox.keyPressed();
     if (keyCode == ENTER) {
-      runSearch(searchBox.text.trim());
+      runSearch(searchBox.text.trim()); // if enter is pressed it then triggers the search 
     }
     if (key == ESC) key = 0;
     return;
   }
   if (key == ESC) {
     key = 0;
-    currentScreen = 0;
+    currentScreen = 0; // if esc is pressed it returns user back to homepage
   }
   if (key == '0') {
     currentData = flights;
@@ -204,6 +215,8 @@ void keyPressed() {
   }
 }
 
+// below dteermiens what type of search was entered. eg. if a '/' was entered it will 
+// treat it as a data range search 
 void runSearch(String input) {
   if (input.length() == 0) {
     currentData = flights;
@@ -229,6 +242,7 @@ void runSearch(String input) {
     rebuildCharts();
     return;
   }
+  // if search si 3 characters it treats it as airport code, if 2 characters it treats it as airline code
   String upper = input.toUpperCase();
   if (upper.length() == 3) {
     currentData = queryByAirport(upper, flights);
@@ -261,6 +275,8 @@ void drawButton(String label, float x, float y, float w, float h) {
   textSize(16);
   text(label, x + w / 2, y + h / 2);
 }
+
+//displays dataswitch buttons on homepage
 void drawButtonHomePage(){
     text("Choose Dataset:", width/2-20, height/2 +230);
     if(twoK){
@@ -274,7 +290,7 @@ void drawButtonHomePage(){
 
 }
 
-
+// reads csv file, then stores each row as a datapoint
 void loadData(String filename) {
   String[] lines = loadStrings(filename);
   for (int i = 1; i < lines.length; i++) {
@@ -285,6 +301,7 @@ void loadData(String filename) {
   }
 }
 
+// handles quoted words/sentecnes, so commas inside quotes dont get treated as a seperator 
 String[] parseCSVLine(String line) {
   ArrayList<String> fields = new ArrayList<String>();
   boolean inQuotes = false;
@@ -305,6 +322,7 @@ String[] parseCSVLine(String line) {
   return fields.toArray(result);
 }
 
+// randoises start/end points for planes on homepage 
 void setUpFlights() {
   for (int i = 0; i < 5; i++) {
     flightPaths[i][0] = random(200, width * 0.4);
@@ -315,6 +333,7 @@ void setUpFlights() {
   }
 }
 
+// draws the sidebar pages, and highlights the one which is being displayed
 void drawSidebar() {
   noStroke();
   fill(10, 15, 30);
@@ -329,6 +348,7 @@ void drawSidebar() {
   }
 }
 
+//draws searchbar and the slightly greyed out text inside it to help user to know what to search for 
 void drawSearchBar() {
   fill(180);
   noStroke();

@@ -18,10 +18,14 @@ class DepartingFlights {
     textSize(22);
     text("Flights per Departure Airport", width / 2, 20);
 
+    // tmp vairbales to count how many flights depart per each airport
     String[] tempAirports = new String[flights.size()];
     int[] tempCounts = new int[flights.size()];
     int numAirports = 0;
 
+    // goes through data and if an airport code is already in the tmpAirports array, it adds 1 to the correlating index in tempCounts. 
+    // if it doesnt find the airport code it adds the code to the end of the tmp array to start a count for that airport 
+    
     for (int i = 0; i < flights.size(); i++) {
       String orig = flights.get(i).origin;
       boolean found = false;
