@@ -1,4 +1,4 @@
-//Authorship Connor Nell, Music was Sean Moriarty
+//Authorship Connor Nell, Oliver Crosthwaite and Music was Sean Moriarty
 
 import processing.sound.*;
 SoundFile bgMusic;

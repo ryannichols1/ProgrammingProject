@@ -146,11 +146,14 @@ class PopularDestinations {
       
 
       // Static dot only no rings
-      float dotR = map(topCounts[i], 0, maxCount, 5, 16); // 
+      float dotR = map(topCounts[i], 0, maxCount, 5, 16);
+      float rankFade = map(i, 0, 9, 1.0, 0.45);
       noStroke();
+      fill(lerpColor(color(0, 200, 255), color(0, 80, 160), (float)i / 9), (int)(230 * rankFade));
       ellipse(sx, sy, dotR * 2, dotR * 2);
 
       // Airport code label
+      fill(220, 240, 255, (int)(220 * rankFade));
       textAlign(CENTER, BOTTOM);
       textSize(10);
       text(code, sx, sy - dotR - 3);
@@ -206,7 +209,7 @@ class PopularDestinations {
       textSize(i < 3 ? 16 : 14);
       text(topCodes[i], colCode, midY);
 
-      // Percentage — right-aligned before flight count
+      // Percentageright-aligned before flight count
       float pct = 100.0 * topCounts[i] / totalFlights;
       fill(100, 160, 200);
       textAlign(RIGHT, CENTER);
