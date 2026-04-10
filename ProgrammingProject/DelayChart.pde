@@ -23,7 +23,7 @@ class DelayBarChart {
 
     textSize(10);
     fill(255);
-    text("Key:\n Green: Early\n Red: Late", CORNER + 30, CORNER + 15);
+    text("Key:\n Green: Early\n Red: Late", CORNER + 200, CORNER + 15);
 
     ArrayList<String> airlines = new ArrayList<String>();
     ArrayList<Float> totals = new ArrayList<Float>();
