@@ -1,4 +1,4 @@
-//Authorship: Vlad Manea
+//Authorship: Vlad Manea, Ryan Nichols
 
 // by airport (origin or destination)
 ArrayList<DataPoint> queryByAirport(String airportCode, ArrayList<DataPoint> dataSet) {

@@ -29,7 +29,7 @@ class flightsByDate {
 
     if (flights == null) {
       // keep counts at zero
-      for (int i = 0; i < 7; i++) {
+      for (int i = 0; i <= 7; i++) {
         counts[i] = 0;
       }
       return;
