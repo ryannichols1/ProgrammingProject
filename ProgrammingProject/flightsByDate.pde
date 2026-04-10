@@ -1,3 +1,5 @@
+// Authorship Ryan Nichols
+
 class flightsByDate {
   ArrayList<DataPoint> flights;
   int[] counts = new int[7];

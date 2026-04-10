@@ -1,3 +1,5 @@
+//Authorship Sean Moriarty
+
 class FlightsByTimeOfDay {
   ArrayList<DataPoint> flights;
 

@@ -1,3 +1,5 @@
+//Authorship Vlad Manea, Callum Hughes, function getFlightDayOfWeek : Ryan Nichols
+
 class DataPoint {
   String flightDate;
   String airline;

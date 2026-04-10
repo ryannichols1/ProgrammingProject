@@ -1,3 +1,5 @@
+//Authorship: Vlad Manea
+
 // by airport (origin or destination)
 ArrayList<DataPoint> queryByAirport(String airportCode, ArrayList<DataPoint> dataSet) {
   ArrayList<DataPoint> results = new ArrayList<DataPoint>();

@@ -1,3 +1,5 @@
+//Authorship Oliver Crosthwaite
+
 class PopularDestinations {
   ArrayList<DataPoint> flights;
 

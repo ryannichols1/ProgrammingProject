@@ -1,3 +1,5 @@
+//Authorship Connor Nell, Music was Sean Moriarty
+
 import processing.sound.*;
 SoundFile bgMusic;
 PImage soundIcon;

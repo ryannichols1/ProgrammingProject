@@ -1,3 +1,5 @@
+//Authorship Vlad Manea 
+
 class DelayBarChart {
   ArrayList<DataPoint> flights;
 

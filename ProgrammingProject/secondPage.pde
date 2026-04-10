@@ -1,3 +1,5 @@
+//Authorship Vlad Manea 
+
 void drawInfo(){
   background(255);
   

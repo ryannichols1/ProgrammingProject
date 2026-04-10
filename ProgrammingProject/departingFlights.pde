@@ -1,3 +1,4 @@
+// Authorship Callum Hughes
 
 class DepartingFlights {
   ArrayList<DataPoint> flights;
